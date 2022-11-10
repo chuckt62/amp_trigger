@@ -40,6 +40,3 @@ sudo systemctl enable amp_trigger.service
 sudo systemctl daemon-reload
 sudo systemctl start amp_trigger.service
 ```
-
-```
-
