@@ -1,14 +1,16 @@
 from enum import Enum
 import time
-import subprocess
 import re
 import logging
 import sys
+import lgpio
+
+# open the gpio chip and set TRIG pin as output
+TRIG = 26
+h = lgpio.gpiochip_open(0)
+lgpio.gpio_claim_output(h, TRIG)
 
 STEAM_PROC = '/proc/asound/card2/stream0'
-KASA_DEVICE = 'Amplifier'
-
-KASA_AMP_CMD = ['kasa', '--type', 'plug', '--alias', KASA_DEVICE]
 
 class State(Enum):
     UNKNOWN = 'unkown'
@@ -43,58 +45,42 @@ def getSoundState() :
     return state
 
 #
-# Get the state of the plug
-#
-#    $ kasa --type plug --alias "Amplifier" state
-#    Alias is given, using discovery to find host Amplifier
-#    Found hostname is 192.168.86.29
-#    == Amplifier - HS103(US) ==
-#        Host: 192.168.86.29
-#        Device state: ON
-#        ...
+# Get the state of the gpio pin
 #
 def getAmpState() :
     state = State.UNKNOWN
-    
-    cmd = KASA_AMP_CMD.copy()
-    cmd.append('state')
-    data = subprocess.check_output(cmd)
-
-    result = re.search("Device state: (ON|OFF)", str(data))
-    if result is not None:
-        match result.group(1):
-            case 'ON':
+    data = lgpio.gpio_read(h, TRIG)
+    if data is not None:
+        match str(data):
+            case '1':
                 state = State.ON
-            case 'OFF':
+            case '0':
                 state = State.OFF
     
     log.info("Amp is " + str(state))
     return state
 
 #
-# Set the state of the plug
-#
-#    $ kasa --type plug --alias "Amplifier" on
-#    Alias is given, using discovery to find host Amplifier
-#    Found hostname is 192.168.86.29
-#    ...
+# Set the state of the gpio pin
 #
 def setAmpState(state) :
     if (state == State.UNKNOWN):
         return
     log.info("Setting Amp to " + str(state))
+    match str(state):
+        case 'State.ON':
+            data = 1
+        case 'State.OFF':
+            data = 0
 
-    cmd = KASA_AMP_CMD.copy()
-    cmd.append(str(state.value))
-    
-    subprocess.check_output(cmd)
+    lgpio.gpio_write(h, TRIG, data)
 
 #
-#    Main loop
+# Main loop
 #
 if __name__ == '__main__':
     logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
-    log = logging.getLogger("amp_power")
+    log = logging.getLogger("amp_trigger")
     log.info("Starting")
 
     sound_prev_state = State.UNKNOWN
@@ -113,6 +99,5 @@ if __name__ == '__main__':
                 setAmpState(sound_new_state)
             else:
                 log.info("Amp is already " + str(sound_new_state))
-
         sound_prev_state = sound_new_state
         time.sleep(1)
