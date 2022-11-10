@@ -1,4 +1,4 @@
-# Amp Trigger Control for CamillaDSP and RaspberryPi using a GPIO pin (copied from igfarm/amp_power for Kasa SmartPlugs)
+# Amp Trigger Control for CamillaDSP and RaspberryPi using a GPIO pin (forked from igfarm/amp_power for Kasa SmartPlugs)
 
 This project contains a small script to trigger the standyby power of an audio power amplifier using a GPIO pin when connected to CamillaDSP on a RaspberryPi. The "RPi4 + CamillaDSP Tutorial" setup is descirbed in [this thread](https://www.audiosciencereview.com/forum/index.php?threads/rpi4-camilladsp-tutorial.29656/) of the Audio Science Review website.
 
