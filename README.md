@@ -38,6 +38,7 @@ After you are satisfied it works, install it as a service. To do this update `am
 sudo cp amp_power.service /lib/systemd/system/
 sudo systemctl enable amp_power.service
 sudo systemctl daemon-reload
-sudo systemctl start amp_power.service
+sudo systemctl start amp_power.servicesudo systemctl start amp_trigger.service
+
 ```
 
