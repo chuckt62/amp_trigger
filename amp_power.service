@@ -5,10 +5,10 @@ After=syslog.target
 User=ubuntu
 Type=idle
 Environment=PATH=/home/ubuntu/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-ExecStart=python3 /home/ubuntu/camilladsp/amp_power/amp_power.py
+ExecStart=python3 /home/ubuntu/camilladsp/amp_trigger/amp_trigger.py
 #StandardOutput=syslog
 #StandardError=syslog
-SyslogIdentifier=amp_power
+SyslogIdentifier=amp_trigger
 
 [Install]
 WantedBy=multi-user.target
