@@ -31,7 +31,6 @@ Test the script
 ```
 python3 amp_trigger.py
 ```
-*** Known Issue: lgpio lib fails on import when run as service. There is some kind of permission issue when it try's to create ".lgd-nfy" file. ***
 After you are satisfied it works, install it as a service. To do this update `amp_trigger.service` to point to the correct path and then:
 
 ```
