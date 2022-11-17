@@ -3,12 +3,12 @@ import time
 import re
 import logging
 import sys
-import lgpio
+import RPi.GPIO as GPIO
 
-# open the gpio chip and set TRIG pin as output
 TRIG = 26
-h = lgpio.gpiochip_open(0)
-lgpio.gpio_claim_output(h, TRIG)
+GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
+GPIO.setup(TRIG, GPIO.OUT)
 
 STEAM_PROC = '/proc/asound/card2/stream0'
 
@@ -49,7 +49,7 @@ def getSoundState() :
 #
 def getAmpState() :
     state = State.UNKNOWN
-    data = lgpio.gpio_read(h, TRIG)
+    data = GPIO.input(TRIG)
     if data is not None:
         match str(data):
             case '1':
@@ -73,7 +73,7 @@ def setAmpState(state) :
         case 'State.OFF':
             data = 0
 
-    lgpio.gpio_write(h, TRIG, data)
+    GPIO.output(TRIG,data)
 
 #
 # Main loop
@@ -102,4 +102,4 @@ if __name__ == '__main__':
         sound_prev_state = sound_new_state
         time.sleep(1)
 
-#lgpio.gpiochip_close(h)
+GPIO.cleanup()
