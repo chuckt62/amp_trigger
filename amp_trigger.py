@@ -10,6 +10,7 @@ MUTE = 16
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 GPIO.setup(TRIG, GPIO.OUT)
+GPIO.setup(MUTE, GPIO.OUT)
 
 STEAM_PROC = '/proc/asound/card2/stream0'
 
