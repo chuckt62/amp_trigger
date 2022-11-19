@@ -6,6 +6,7 @@ import sys
 import RPi.GPIO as GPIO
 
 TRIG = 26
+MUTE = 16
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 GPIO.setup(TRIG, GPIO.OUT)
@@ -72,8 +73,12 @@ def setAmpState(state) :
             data = 1
         case 'State.OFF':
             data = 0
-
+    if (data == 0):
+        GPIO.output(MUTE,1)
+        
     GPIO.output(TRIG,data)
+    #time.sleep(1)
+    GPIO.output(MUTE,0)
 
 #
 # Main loop
