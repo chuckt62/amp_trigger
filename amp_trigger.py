@@ -76,9 +76,9 @@ def setAmpState(state) :
             data = 0
     if (data == 0):
         GPIO.output(MUTE,1)
+        time.sleep(1)
         
     GPIO.output(TRIG,data)
-    #time.sleep(1)
     GPIO.output(MUTE,0)
 
 #
