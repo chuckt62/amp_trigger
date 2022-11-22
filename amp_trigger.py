@@ -12,7 +12,7 @@ GPIO.setwarnings(False)
 GPIO.setup(TRIG, GPIO.OUT)
 GPIO.setup(MUTE, GPIO.OUT)
 
-STEAM_PROC = '/proc/asound/card2/stream0'
+STREAM_PROC = '/proc/asound/card2/stream0'
 
 class State(Enum):
     UNKNOWN = 'unkown'
@@ -31,7 +31,7 @@ class State(Enum):
 def getSoundState() :
     state = State.UNKNOWN
     
-    file = open(STEAM_PROC)
+    file = open(STREAM_PROC)
     data = file.read()
     file.close()
     
