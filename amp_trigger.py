@@ -72,14 +72,13 @@ def setAmpState(state) :
     match str(state):
         case 'State.ON':
             data = 1
+            GPIO.output(MUTE,0)
         case 'State.OFF':
             data = 0
-    if (data == 0):
-        GPIO.output(MUTE,1)
-        time.sleep(1)
-        
+            GPIO.output(MUTE,1)
+            
+    time.sleep(1)        
     GPIO.output(TRIG,data)
-    GPIO.output(MUTE,0)
 
 #
 # Main loop
