@@ -106,5 +106,3 @@ if __name__ == '__main__':
                 log.info("Amp is already " + str(sound_new_state))
         sound_prev_state = sound_new_state
         time.sleep(1)
-
-GPIO.cleanup()
